@@ -60,19 +60,7 @@ const App = () => {
       <ul>
         {books.items.map((book, index) => {
           return (
-            <li key={index}>
-              <div>
-                <img
-                  src={`http://books.google.com/books/content?id=${book.id}&printsec=frontcover&img=1&zoom=1&source=gbs_api`}
-                  alt={`${book.volumeInfo.title} book`}
-                />
-                <div>
-                  <h3>{book.volumeInfo.title}</h3>
-                  <p>{bookAuthors(book.volumeInfo.authors)}</p>
-                  <p>{book.volumeInfo.publishedDate}</p>
-                </div>
-              </div>
-            </li>
+            
           );
         })}
       </ul>
