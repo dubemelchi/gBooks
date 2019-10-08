@@ -1,32 +1,40 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import './App.css';
+import React, { useState } from "react";
+import axios from "axios";
+import "./App.css";
 
 const App = () => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [books, setBooks] = useState({ items: [] });
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
   const onInputChange = e => {
     setSearchTerm(e.target.value);
   };
 
   let API_URL = `https://www.googleapis.com/books/v1/volumes`;
 
-  const [books, setBooks] = useState({ items: [] });
-
   const bookAuthors = authors => {
     if (authors.length <= 2) {
-      authors = authors.join('and');
+      authors = authors.join("and");
     } else if (authors.lenght > 2) {
-      let lastAuthor = ' and ' + authors.slice(-1);
+      let lastAuthor = " and " + authors.slice(-1);
       authors.pop();
-      authors = authors.join(', ');
+      authors = authors.join(", ");
       authors += lastAuthor;
     }
     return authors;
   };
 
   const fetchBooks = async () => {
-    const result = await axios.get(`${API_URL}?q=${searchTerm}`);
-    setBooks(result.data);
+    setLoading(true);
+    setError(false);
+    try {
+      const result = await axios.get(`${API_URL}?q=${searchTerm}`);
+      setBooks(result.data);
+    } catch (error) {
+      setError(true);
+    }
+    setLoading(false);
   };
 
   const onSubmitHandler = e => {
@@ -37,16 +45,27 @@ const App = () => {
   return (
     <section>
       <form onSubmit={onSubmitHandler}>
-        <label htmlFor=''>
+        <label htmlFor="">
           <span>Search for books</span>
           <input
-            type='search'
-            placeholder='something something'
+            type="search"
+            placeholder="something something"
             value={searchTerm}
             onChange={onInputChange}
+            required
           />
-          <button type='submit'>search</button>
+          <button type="submit">search</button>
         </label>
+        {error && (
+          <div style={{ color: `red` }}>
+            some error occurred, while fetching api
+          </div>
+        )}
+        {loading && (
+          <div style={{ color: `green` }}>
+            fetching books for "<strong>{searchTerm}</strong>"
+          </div>
+        )}
       </form>
       <ul>
         {books.items.map((book, index) => {
