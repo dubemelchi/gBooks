@@ -1,6 +1,7 @@
-import React from "react";
+/* eslint-disable no-undef */
+import React from 'react';
 
-// import bookWhatever i name it when i get there lol
+import { bookAuthors } from '../utils/index';
 
 const Book = ({ book }) => {
   return (
