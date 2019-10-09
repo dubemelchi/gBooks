@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import BookSearchForm from './components/bookSearchForm';
-import Loader from './components/loader';
-import BookList from './components/booksList';
-import './App.css';
+import BookSearchForm from '../components/bookSearchForm';
+import Loader from '../components/loader';
+import BookList from '../components/booksList';
 
 const SearchPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
